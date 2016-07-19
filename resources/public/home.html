@@ -11,13 +11,8 @@
   <script src="js/jquery.js"></script>
   <script src="js/bootstrap.js"></script>
   <script src="js/main.js"></script>
-  <script>
-   angular.module("myApp", []).run(function($http){
-     window.http = $http;
-   });
-  </script>
 </head>
-<body ng-app="myApp">
+<body ng-app="TodosApp">
   <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div class="container">
       <div class="navbar-header">
@@ -37,10 +32,25 @@
     </div>
   </div>
   <div class="container">
-    <div class="starter-template">
+    <div class="starter-template" ng-controller="MainCtrl as main">
       <h1>Angudone</h1>
       <div class="lead">
-        This is where we can play!
+			<input type="text" ng-model="main.searchText"/>
+            <div ng-repeat="t in main.todos | filter:main.searchText" >
+			<input type="checkbox" 
+				ng-checked="t.done"
+				ng-click="main.markDone(t)" >{{t.text  }}</input>
+            </div>
+			<form novalidate name="newTodo">
+				<input name="someTodo" type="text" ng-model="main.obj.newTodoText"
+					   required />
+				<button ng-click="main.addNewTodo(main.obj, main.todos)"
+                        ng-disabled="newTodo.$invalid">add todo</button>
+			</form>
+			{{ newTodo.someTodo }}
+		<h3>{{main.todos}}</h3>
+           
+
       </div>
     </div>
   </div>
